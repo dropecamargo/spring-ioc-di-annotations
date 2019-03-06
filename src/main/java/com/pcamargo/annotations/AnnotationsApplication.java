@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.ContextIdApplicationContextInitializer;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 @SpringBootApplication
@@ -12,7 +13,12 @@ public class AnnotationsApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(AnnotationsApplication.class, args);
 		
-		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+		// Spring config - File XML
+//		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+		
+		// Spring config - Java Class  
+		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(SportConfig.class);
+		
 		System.out.println("\nAnnotations config (Setter injection) ----------------");
 		Coach coach = context.getBean("tennisCoach", Coach.class);
 		
@@ -46,6 +52,11 @@ public class AnnotationsApplication {
 		System.out.println("Result compare object (Scopes): " + result);
 		System.out.println("Memory location theCoach "	 + theCoach);
 		System.out.println("Memory location theCoach " + alphaCoach);
+		
+		System.out.println("\nBean define Java Config Class ----------------");
+		Coach swcoach = context.getBean("swinCoach", Coach.class);
+		System.out.println(swcoach.getDailyFortune());
+		System.out.println(swcoach.getDailyWorkout());
 		
 		context.close();
 	}
